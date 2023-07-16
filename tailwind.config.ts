@@ -10,6 +10,12 @@ export default {
       secondary: '#001033',
       accent: '#e066ff',
     },
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+      orbitron: ['Orbitron', 'sans-serif'],
+      redhat: ['Red Hat Display', 'sans-serif'],
+    },
     extend: {},
   },
   plugins: [],
