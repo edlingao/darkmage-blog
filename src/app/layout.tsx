@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { AuthProvider } from "@/client/components/AuthProvider";
 import { authOptions } from "@/server/auth";
 import { type Session } from "next-auth/core/types";
+import '../styles/globals.css';
 
 export const metadata = {
   title: 'Next.js',
