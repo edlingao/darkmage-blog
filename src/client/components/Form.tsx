@@ -1,26 +1,68 @@
 'use client';
-import { Input } from "@/client/components/Input";
-import { Button } from "@/client/components/Button";
+import type { UserRegister } from "@/lib/types/User";
+import { signIn } from "next-auth/react";
 
 
-export default function LoginForm() {
+interface LoginFormProps {
+  children: React.ReactNode;
+  action: "signUp" | "signIn";
+}
+
+interface Actions {
+  signIn: (params: ActionParams) => Promise<void>;
+  signUp: () => Promise<UserRegister>;
+}
+
+interface ActionParams {
+  username: string;
+  password: string;
+  email?: string;
+}
+
+const actions: Actions = ({
+  signIn: async ({username, password}: ActionParams) => {
+    await signIn("credentials", {
+      username,
+      password,
+      callbackUrl: "/",
+    })
+  },
+  signUp: async ({username, password, email}: ActionParams) => {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name: username, password, email}),
+    });
+    
+    const data = await response.json() as UserRegister;
+    return data;
+  },
+})
+
+export default function Form({ children, action }: LoginFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted");
+    const {username, password, email} = Object.fromEntries(new FormData(e.currentTarget));
+    actions[action]({username, password, email})
+      .then(async () => {
+        if (action === "signUp") {
+          console.log({username, password, email});
+          await signIn("credentials", {
+            username,
+            password,
+            callbackUrl: "/",
+          });
+        }
+      })
+      .catch(() => console.log("Error"))
   }
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-      <Input placeHolder="Email..."/>
-      <Input placeHolder="Password..." type="password"/>
-      <Button text="Login" />
-      <div className="flex justify-between items-center">
-        <div className="line w-1/3 h-0.5 bg-text"></div>
-        <p className="font-orbitron text-base">OR</p>
-        <div className="line w-1/3 h-0.5 bg-text"></div>
-      </div>
-      <Button text="Discord" icon="discord"/>
+      {children}
     </form>
   )
 }
