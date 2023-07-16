@@ -9,7 +9,7 @@ import {
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import Credentials from "next-auth/providers/credentials";
-import {hash, compare} from "bcrypt";
+import {hash, compare, compareSync} from "bcrypt";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 
@@ -62,11 +62,12 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findFirst({
           where: {
             name: credentials?.username,
-            password: credentials?.password,
           },
         });
 
-        if (credentials?.username === user?.name && credentials?.password === user?.password) {
+        const correctPassword = await comparePassword(credentials?.password, user?.password);
+
+        if (user && correctPassword) {
           return user;
         }
       },
@@ -83,11 +84,9 @@ export const authOptions: NextAuthOptions = {
      */
   ],
   pages: {
-    // signIn: "/auth/signin",
-    // signOut: "/auth/signout",
+    signIn: "/auth/signin",
     // error: "/auth/error",
     // verifyRequest: "/auth/verify-request",
-    newUser: "/auth/new-user",
   },
   session: {
     strategy: "jwt",
@@ -107,7 +106,8 @@ export const getServerAuthSession = (ctx: {
 };
 
 export async function encryptPassword(password: string) {
-  return await hash(password, process.env.SALT);
+  console.log("SALT", process.env.SALT);
+  return await hash(password, parseInt(process.env.SALT));
 }
 
 export async function comparePassword(password: string, hash: string) {
