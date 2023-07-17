@@ -18,7 +18,7 @@ export default function AuthLayout({
   return (
     <html lang="en">
       <body
-        className="bg-background p-8"
+        className="bg-background p-8 min-h-[100dvh]"
       >
         <div className='flex flex-col gap-5'>
           <LogoBig className='self-center'/>
