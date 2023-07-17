@@ -2,6 +2,7 @@ import { Logout } from "@/client/components/Logout";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
 import Image from 'next/image';
+import Link from "next/link";
 export default async function Page() {
   const session = await getServerSession(authOptions);
   
@@ -14,9 +15,40 @@ export default async function Page() {
             <Image src={session.user.image} alt={session.user.name} width={100} height={100}/>
           )}
           <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
+          <Logout />
         </>
       ) : (
-        <a href="/auth/signin">Sign in</a>
+        <Link href="/auth/signin">Sign in</Link>
       )}
     </>
   );
