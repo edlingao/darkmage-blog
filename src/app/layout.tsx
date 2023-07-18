@@ -29,7 +29,7 @@ export default async function RootLayout({
     </head>
 
       <AuthProvider session={session}>
-        <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-end">
+        <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-start">
           <Header />
           <TagList />
           <div className="overflow-y-auto min-h-[65vh] mb-5">
