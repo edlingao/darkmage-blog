@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function Header() {  
   return (
-    <header className="w-full flex justify-between items-center">
+    <header className="w-full flex justify-between items-center mb-2">
       <Link href="/">
         <LogoSmall />
       </Link>

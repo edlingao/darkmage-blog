@@ -41,8 +41,8 @@ export function NavBar() {
   const pathname = usePathname();
   const isCurrentPath = (path: string) => pathname === path;
   return (
-    <div className="flex items-center justify-center flex-wrap w-full">
-      <nav className="flex items-center justify-between flex-shrink-0 text-white mr-6 bg-primary p-2 mt-auto rounded-full w-9/12">
+    <div className="flex items-center justify-center flex-wrap w-full mt-auto">
+      <nav className="flex items-center justify-between flex-shrink-0 text-white bg-primary p-2 mt-auto rounded-full w-9/12">
         {navBarOptions.map((option) => (
           <Link
             key={option.name}

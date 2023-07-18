@@ -76,6 +76,7 @@ model BlogPost {
     updatedAt DateTime @updatedAt
     title     String
     content   String
+    tags      String[]
     mdFileLocation String
     published Boolean  @default(false)
     author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
