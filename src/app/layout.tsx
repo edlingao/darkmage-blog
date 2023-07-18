@@ -4,6 +4,7 @@ import { authOptions } from "@/server/auth";
 import { type Session } from "next-auth/core/types";
 import '../styles/globals.css';
 import { NavBar } from "@/server/components/NavBar";
+import { Header } from "@/client/components/Header";
 
 export const metadata = {
   title: 'Next.js',
@@ -27,8 +28,9 @@ export default async function RootLayout({
     </head>
 
       <AuthProvider session={session}>
-        <body className="bg-background p-8 h-[100dvh] flex flex-col justify-between items-stretch no-scrollbar">
-          <div className="overflow-y-auto min-h-[80vh] mb-5">
+        <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-stretch no-scrollbar">
+          <Header />
+          <div className="overflow-y-auto min-h-[70vh] mb-5">
             {children}
           </div>
           <NavBar />
