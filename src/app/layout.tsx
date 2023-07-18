@@ -5,6 +5,7 @@ import { type Session } from "next-auth/core/types";
 import '../styles/globals.css';
 import { NavBar } from "@/server/components/NavBar";
 import { Header } from "@/client/components/Header";
+import { TagList } from "@/client/components/TagList";
 
 export const metadata = {
   title: 'Next.js',
@@ -22,15 +23,16 @@ export default async function RootLayout({
     <html lang="en">
       <head>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
       {/* eslint-disable-next-line @next/next/no-page-custom-font */}
       <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
     </head>
 
       <AuthProvider session={session}>
-        <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-stretch no-scrollbar">
+        <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-end">
           <Header />
-          <div className="overflow-y-auto min-h-[70vh] mb-5">
+          <TagList />
+          <div className="overflow-y-auto min-h-[65vh] mb-5">
             {children}
           </div>
           <NavBar />
