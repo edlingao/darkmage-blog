@@ -8,7 +8,7 @@ export function TagList() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const selectedTag = searchParams.get('tag');
+  const selectedTag = searchParams.get('tag') || tagList[0];
 
   const handleTagClick = (tagName: string) => {
     router.push(`/?tag=${tagName}`);
