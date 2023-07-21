@@ -16,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: web
     network_mode: host
     restart: always
     ports:

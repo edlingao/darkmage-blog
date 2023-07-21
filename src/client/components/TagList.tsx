@@ -14,8 +14,7 @@ export function TagList() {
     router.push(`/?tag=${tagName}`);
   };
   return (
-    <div className="flex justify-items-start items-center w-full gap-2 overflow-x-auto min-h-[30px]">
-      
+    <div className="flex justify-items-start items-center w-full md:max-w-md md:mx-auto gap-2 overflow-x-auto min-h-[30px]">
       {tagList.map((tag) => (
         <Tag text={tag} key={tag} style={selectedTag === tag ? "primary" : "secondary"} onClick={handleTagClick} />
       ))}
