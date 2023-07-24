@@ -14,7 +14,7 @@ export function Tag({text, style, onClick}: TagProps) {
 
   return (
     <button
-      className={`bg-${style} px-1 py-0 min-w-[110px] text-orbitron flex flex-row justify-center items-center gap-2 font-orbitron text-regular rounded`}
+      className={`bg-${style} text-text px-1 py-0 min-w-[110px] text-orbitron flex flex-row justify-center items-center gap-2 font-orbitron text-regular rounded`}
       onClick={ handleClick }
     >
       {text.toUpperCase()}

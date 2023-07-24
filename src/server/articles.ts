@@ -2,15 +2,24 @@ import { join } from "path";
 import fs from 'fs';
 import matter from "gray-matter";
 import { serialize } from 'next-mdx-remote/serialize';
+import { prisma } from "./db";
 
 export interface Article {
   content: string;
   data: {
     title: string;
-    author: string;
+    author: {
+      username: string;
+      image: string;
+    };
     date?: string;
     tags: string[];
     url: string;
+    hero_image: string;
+    second_image: string;
+    third_image: string;
+    fourth_image: string;
+    id: string;
   },
 }
 
@@ -21,18 +30,38 @@ async function readMarkdownFile(filename: string, serialized: boolean): Promise<
   const fileContents: string = fs.readFileSync(fullPath, "utf8");
   const { content, data } = matter(fileContents);
 
+  const article = await prisma.blogPost.findUnique({
+    where: {
+      title: data.title as string ,
+    },
+  });
+
+  const author = await prisma.user.findUnique({
+    where: {
+      id: article?.authorId,
+    },
+  });
+
+  const articleData = {
+    ...data,
+    url: `${postsDir}/${filename}`,
+    id: article?.id,
+    author: {
+      username: author?.name,
+      image: author?.image,
+    },
+  };
+
   if(serialized) {
     const serializedContent = await serialize(content);
     return {
       content: serializedContent,
-      data,
+      data: articleData,
     };
   }
   return {
     content,
-    data: { ...data,
-      url: `${postsDir}/${filename}`,
-    },
+    data: articleData,
   };
 }
 
@@ -41,4 +70,19 @@ export function getArticles(serialized = false) {
   const articleContents: Promise<Article>[] = articles.map((article) => (readMarkdownFile(article, serialized)) )
 
   return Promise.all(articleContents);
+}
+
+export async function getArticleBySlug(slug: string, serialized = false) {
+  const articles = await getArticles(serialized);
+  const articleDB = await prisma.blogPost.findUnique({
+    where: {
+      title: slug,
+    },
+  });
+  return {
+    ...articles.find(
+        (article) => article.data.title === slug
+      ),
+    id: articleDB?.id,
+  }
 }

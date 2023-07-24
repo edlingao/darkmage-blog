@@ -22,11 +22,11 @@ export default function AuthLayout({
       >
         <div className='flex flex-col gap-5'>
           <LogoBig className='self-center'/>
-          <h1 className='font-orbitron text-3xl text-center' >Welcome Back</h1>
+          <h1 className='font-orbitron text-3xl text-center text-text' >Welcome Back</h1>
           {children}
           <div className="flex justify-between items-center">
             <div className="line w-1/3 h-0.5 bg-text"></div>
-            <p className="font-orbitron text-base">OR</p>
+            <p className="font-orbitron text-base text-text">OR</p>
             <div className="line w-1/3 h-0.5 bg-text"></div>
           </div>
           <DiscordLoginButton />

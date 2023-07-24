@@ -23,7 +23,7 @@ export function Button({
   return (
     <button
       onClick={handleClick}
-      className={`bg-${style} text-orbitron flex flex-row justify-center items-center gap-2 p-2 font-orbitron text-2xl rounded-md`}
+      className={`bg-${style} text-orbitron text-text flex flex-row justify-center items-center gap-2 p-2 font-orbitron text-2xl rounded-md`}
     >
       {IconComponent}
       {text}
