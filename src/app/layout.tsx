@@ -1,16 +1,16 @@
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
 
-import '../styles/globals.css';
 import { AuthProvider } from "@/client/components/AuthProvider";
+import '@/styles/globals.css';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
 
-  const session = getServerSession(authOptions)
+  const session = await getServerSession(authOptions)
 
   return (
     <AuthProvider session={session}>

@@ -4,23 +4,25 @@ import matter from "gray-matter";
 import { serialize } from 'next-mdx-remote/serialize';
 import { prisma } from "./db";
 
+interface ArticleMetaData {
+  title: string;
+  author: {
+    username: string;
+    image: string;
+  };
+  date?: string;
+  tags: string[];
+  url: string;
+  hero_image: string;
+  second_image: string;
+  third_image: string;
+  fourth_image: string;
+  id: string;
+}
+
 export interface Article {
   content: string;
-  data: {
-    title: string;
-    author: {
-      username: string;
-      image: string;
-    };
-    date?: string;
-    tags: string[];
-    url: string;
-    hero_image: string;
-    second_image: string;
-    third_image: string;
-    fourth_image: string;
-    id: string;
-  },
+  data: ArticleMetaData,
 }
 
 const postsDir = join(process.cwd(), "src", "articles");
@@ -28,17 +30,16 @@ const postsDir = join(process.cwd(), "src", "articles");
 async function readMarkdownFile(filename: string, serialized: boolean): Promise<Article> {
   const fullPath = join(postsDir, filename);
   const fileContents: string = fs.readFileSync(fullPath, "utf8");
-  const { content, data } = matter(fileContents);
-
+  const { content, data }: Article = matter(fileContents);
   const article = await prisma.blogPost.findUnique({
     where: {
-      title: data.title as string ,
+      title: data.title ,
     },
   });
 
   const author = await prisma.user.findUnique({
     where: {
-      id: article?.authorId,
+      name: data.author.username,
     },
   });
 

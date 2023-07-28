@@ -2,15 +2,14 @@
 import type { UserRegister } from "@/lib/types/User";
 import { signIn } from "next-auth/react";
 
-
 interface LoginFormProps {
   children: React.ReactNode;
   action: "signUp" | "signIn";
 }
 
 interface Actions {
-  signIn: (params: ActionParams) => Promise<void>;
-  signUp: () => Promise<UserRegister>;
+  signIn?: (params: ActionParams) => Promise<void>;
+  signUp?: (params: ActionParams) => Promise<UserRegister>;
 }
 
 interface ActionParams {
@@ -46,18 +45,20 @@ export default function Form({ children, action }: LoginFormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {username, password, email} = Object.fromEntries(new FormData(e.currentTarget));
-    actions[action]({username, password, email})
-      .then(async () => {
-        if (action === "signUp") {
-          console.log({username, password, email});
-          await signIn("credentials", {
-            username,
-            password,
-            callbackUrl: "/",
-          });
-        }
-      })
-      .catch(() => console.log("Error"))
+    const actionCallback = actions[action];
+    if(actionCallback && username && password) {
+      actionCallback({username, password, email})
+        .then(async () => {
+          if (action === "signUp") {
+            await signIn("credentials", {
+              username,
+              password,
+              callbackUrl: "/",
+            });
+          }
+        })
+        .catch(() => console.log("Error"))
+    }
   }
 
   return (

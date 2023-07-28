@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getArticles } from "@/server/articles";
+import { type Article, getArticles } from "@/server/articles";
 import type { GrayMatterFile } from "gray-matter";
 import { prisma } from "@/server/db";
 
@@ -33,11 +33,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const articles: GrayMatterFile[] = await getArticles();
+  const articles: Article[] = await getArticles();
   return NextResponse.json({
+    message: "Articles successfully fetched",
     articles,
-  }) as {
-    message: string;
-    articles: GrayMatterFile[];
-  }
+  });
 }

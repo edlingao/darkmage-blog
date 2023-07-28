@@ -7,7 +7,6 @@ interface TagProps {
 }
 
 export function Tag({text, style, onClick}: TagProps) {
-  
   const handleClick = () => {
     onClick?.(text);
   };

@@ -4,8 +4,8 @@ import { DiscordSmall } from "@/assets/Icons/discord-logo-small.svg";
 
 interface ButtonProps {
   text: string;
-  icon: "none" | "google" | "github" | "discord";
-  style: "primary" | "secondary" | "accent";
+  icon?: "none" | "google" | "github" | "discord";
+  style?: "primary" | "secondary" | "accent";
   onClick?: () => void;
 }
 

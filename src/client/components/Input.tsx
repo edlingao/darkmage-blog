@@ -2,9 +2,9 @@
 
 interface InputProps {
   placeHolder: string;
-  type: "text" | "password";
+  type?: "text" | "password";
   name: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function Input({

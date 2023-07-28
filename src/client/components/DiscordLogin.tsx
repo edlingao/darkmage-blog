@@ -7,8 +7,6 @@ export function DiscordLoginButton() {
 
   const handleLogin = async () => {
     const status = await signIn("discord", {callbackUrl: "/"})
-
-    console.log(status);
   }
 
   return (

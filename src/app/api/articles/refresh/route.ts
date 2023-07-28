@@ -10,30 +10,33 @@ export async function POST() {
 
     const authorUser = await prisma.user.findUnique({
       where: {
-        name: author,
+        name: author.username,
       },
     });
-
-    const postExists = await prisma.blogPost.upsert({
-      where: {
-        authorId_blogUrl: {
-          authorId: authorUser?.id,
-          blogUrl: url,
+    if(authorUser) {
+      const postExists = await prisma.blogPost.upsert({
+        where: {
+          authorId_blogUrl: {
+            authorId: authorUser?.id,
+            blogUrl: url,
+          },
         },
-      },
-      update: {
-        title,
-        tags,
-        authorId: authorUser?.id,
-      },
-      create: {
-        title,
-        blogUrl: url,
-        tags,
-        authorId: authorUser?.id,
-      },
-    });
-    return postExists;
+        update: {
+          title,
+          tags,
+          authorId: authorUser?.id,
+        },
+        create: {
+          title,
+          blogUrl: url,
+          tags,
+          authorId: authorUser?.id,
+        },
+      });
+      return postExists;
+    }
+
+    return {};
   });
 
   return NextResponse.json({

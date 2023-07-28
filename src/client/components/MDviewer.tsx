@@ -2,7 +2,7 @@
 import { MDXRemote } from "next-mdx-remote";
 
 
-export function MDviewer({ content, data }: { content: string, data: { [key: string]: string } }) {
+export function MDviewer({ content, data }: { content: unknown, data: unknown }) {
   return (
     <MDXRemote {...content} frontmatter={data}/>
   )

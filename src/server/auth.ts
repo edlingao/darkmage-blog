@@ -106,7 +106,6 @@ export const getServerAuthSession = (ctx: {
 };
 
 export async function encryptPassword(password: string) {
-  console.log("SALT", process.env.SALT);
   return await hash(password, parseInt(process.env.SALT));
 }
 

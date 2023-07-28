@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+COPY prisma ./prisma/
+COPY node_modules ./node_modules/
+
+# Copy the rest of the app's source code
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Generate prisma
+RUN npx prisma generate
+
+# Build the app
+RUN npm run build
+
+# Set the command to run when the container starts
+CMD ["/bin/sh", "-c", "npm run start"]
