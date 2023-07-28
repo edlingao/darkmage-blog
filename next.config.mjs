@@ -3,6 +3,12 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
+import MDX from "@next/mdx";
+
+const withMDX = MDX({
+  extension: /\.mdx?$/,
+
+});
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -27,4 +33,4 @@ const config = {
 //   },
 };
 
-export default config;
+export default withMDX(config);

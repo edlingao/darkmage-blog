@@ -1,5 +1,5 @@
 export interface Error {
   message: string;
-  stack?: string;
+  stack?: unknown;
   code: number;
 }

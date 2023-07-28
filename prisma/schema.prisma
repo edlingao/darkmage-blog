@@ -74,14 +74,14 @@ model BlogPost {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    title     String
-    content   String
+    title     String @unique
+    blogUrl   String @unique
     tags      String[]
-    mdFileLocation String
     published Boolean  @default(false)
     author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId  String
     comments  Comments[]
+    @@unique([authorId, blogUrl])
 }
 
 model Comments {

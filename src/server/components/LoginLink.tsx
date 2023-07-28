@@ -14,11 +14,11 @@ export function LoginLink() {
   
 
   return data?.user ? (
-    <button onClick={handleClick} className="font-orbitron text-base">
+    <button onClick={handleClick} className="font-orbitron text-base text-text">
       SIGN OUT
     </button>
   ) : (
-    <Link href="/auth/signin" className="font-orbitron text-base">
+    <Link href="/auth/signin" className="font-orbitron text-base text-text">
       SIGN IN
     </Link>
   )

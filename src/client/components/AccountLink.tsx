@@ -35,7 +35,7 @@ export function AccountLink() {
 
   return (
     <div className="flex flex-row gap-2">
-      <p className="font-orbitron text-base text-center">
+      <p className="font-orbitron text-base text-center text-text">
         {info.text}
       </p>
       <Link href={info.url} className="font-orbitron text-base text-center text-primary">
