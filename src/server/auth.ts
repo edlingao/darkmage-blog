@@ -59,17 +59,32 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "Password"},
       },
       async authorize(credentials) {
-        const user = await prisma.user.findFirst({
-          where: {
-            name: credentials?.username,
-          },
-        });
+        try {
 
-        const correctPassword = await comparePassword(credentials?.password, user?.password);
+          const user = await prisma.user.findFirst({
+            where: {
+              name: credentials?.username,
+            },
+          });
 
-        if (user && correctPassword) {
-          return user;
+          // if user doesn't exist or password is not provided, return null
+          if(!user || !user.password || !credentials || !credentials.password || !credentials.username) return null;
+  
+          const correctPassword = await comparePassword(credentials.password, user.password);
+  
+          if (user && correctPassword) {
+            return {
+              id: user.id,
+              name: user.name,
+              image: user.image,
+              email: user.email,
+            };
+          }
+        } catch (error) {
+          console.error(error);
         }
+
+        return null;
       },
     }),
     
@@ -106,7 +121,7 @@ export const getServerAuthSession = (ctx: {
 };
 
 export async function encryptPassword(password: string) {
-  return await hash(password, parseInt(process.env.SALT));
+  return await hash(password, parseInt(process.env.SALT || "10"));
 }
 
 export async function comparePassword(password: string, hash: string) {
