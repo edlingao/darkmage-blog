@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { type Article, getArticles } from "@/server/articles";
-import type { GrayMatterFile } from "gray-matter";
 import { prisma } from "@/server/db";
 
 interface BlogBody {

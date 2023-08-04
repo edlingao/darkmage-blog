@@ -30,10 +30,10 @@ const postsDir = join(process.cwd(), "src", "articles");
 async function readMarkdownFile(filename: string, serialized: boolean): Promise<Article> {
   const fullPath = join(postsDir, filename);
   const fileContents: string = fs.readFileSync(fullPath, "utf8");
-  const { content, data }: Article = matter(fileContents);
+  const { content, data }: Article = matter(fileContents) as unknown as Article;
   const article = await prisma.blogPost.findUnique({
     where: {
-      title: data.title ,
+      title: data.title,
     },
   });
 
@@ -56,13 +56,13 @@ async function readMarkdownFile(filename: string, serialized: boolean): Promise<
   if(serialized) {
     const serializedContent = await serialize(content);
     return {
-      content: serializedContent,
-      data: articleData,
+      content: serializedContent as unknown as string,
+      data: articleData as unknown as ArticleMetaData,
     };
   }
   return {
     content,
-    data: articleData,
+    data: articleData as unknown as ArticleMetaData,
   };
 }
 

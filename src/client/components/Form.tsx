@@ -44,7 +44,7 @@ export default function Form({ children, action }: LoginFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const {username, password, email} = Object.fromEntries(new FormData(e.currentTarget));
+    const {username, password, email} = Object.fromEntries(new FormData(e.currentTarget)) as {username: string, password: string, email: string};
     const actionCallback = actions[action];
     if(actionCallback && username && password) {
       actionCallback({username, password, email})

@@ -1,6 +1,5 @@
 import type { UserRegister } from '@/lib/types/User';
 import type { Error } from '@/lib/types/error';
-import type { NextApiRequest } from 'next';
 
 import { encryptPassword } from '@/server/auth';
 import { prisma } from '@/server/db';

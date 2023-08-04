@@ -25,7 +25,7 @@ const navBarOptions: NavBarOption[] = [
   },
 ];
 
-function ChooseIcon({name, className, isCurrent}: {name: string, className: string, isCurrent: boolean}): FunctionComponentElement {
+function ChooseIcon({name, className, isCurrent}: {name: string, className: string, isCurrent: boolean}): React.ReactElement {
   const fill = isCurrent ? "fill-background" : "fill-text";
   switch (name) {
     case 'Home':
@@ -34,6 +34,8 @@ function ChooseIcon({name, className, isCurrent}: {name: string, className: stri
       return <SearchIcon className={className} fill={fill} />;
     case 'Saved':
       return <SaveIcon className={className} fill={fill} />;
+    default:
+      return <></>;
   }
 }
 
