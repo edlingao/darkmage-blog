@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className="bg-background p-8 pb-3 h-[100dvh] flex flex-col justify-between items-start">
         <Header />
         <TagList />
-        <div className="overflow-y-auto min-h-[65vh]">
+        <div className="overflow-y-auto h-[65vh] w-full">
           {children}
         </div>
         <NavBar />
