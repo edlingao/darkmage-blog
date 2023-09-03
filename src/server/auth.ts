@@ -1,17 +1,16 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
   type Session,
-  User,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import Credentials from "next-auth/providers/credentials";
-import {hash, compare, compareSync} from "bcrypt";
+import { hash, compare } from "bcrypt";
 import { env } from "@/env.mjs";
-import { prisma } from "@/server/db";
+import UserModel from "@/models/User";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -27,11 +26,6 @@ declare module "next-auth" {
       // role: UserRole;
     } & DefaultSession["user"];
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 /**
@@ -45,7 +39,6 @@ export const authOptions: NextAuthOptions = {
         ...session,
       })
   },
-  adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
@@ -60,25 +53,22 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
+          if(!credentials) return null;
 
-          const user = await prisma.user.findFirst({
-            where: {
-              name: credentials?.username,
-            },
-          });
-
+          const user = await UserModel.getByNameOrEmail(credentials?.username);
           // if user doesn't exist or password is not provided, return null
           if(!user || !user.password || !credentials || !credentials.password || !credentials.username) return null;
-  
+
           const correctPassword = await comparePassword(credentials.password, user.password);
-  
+
           if (user && correctPassword) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return {
               id: user.id,
               name: user.name,
               image: user.image,
               email: user.email,
-            };
+            } as any;
           }
         } catch (error) {
           console.error(error);
@@ -87,7 +77,7 @@ export const authOptions: NextAuthOptions = {
         return null;
       },
     }),
-    
+
     /**
      * ...add more providers here.
      *

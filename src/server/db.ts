@@ -1,15 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-import { env } from "@/env.mjs";
+'use server';
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+// db.js
+import postgres from 'postgres';
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log:
-      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+const sql = postgres(`${process.env.DATABASE_URL || ''}`, {
+  idle_timeout: 20,
+  max_lifetime: 60 * 30
+}); // will use psql environment variables
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+export default sql;

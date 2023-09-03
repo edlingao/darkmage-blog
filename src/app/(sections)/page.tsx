@@ -1,9 +1,8 @@
 import { ArticleCard } from "@/client/components/ArticleCard";
-import { type Article, getArticles } from "@/server/articles";
+import ArticleModel, { type ArticleData } from "@/models/Article";
 
 export default async function Page() {
-  const articles: Article[] = await getArticles(true);
-
+  const articles: ArticleData[] = await ArticleModel.getArticles(true);
 
   return (
     <div>

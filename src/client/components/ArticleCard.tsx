@@ -1,6 +1,6 @@
 'use client';
 
-import type { Article } from "@/server/articles";
+import type { ArticleData } from "@/models/Article";
 import { MDviewer } from "@/client/components/MDviewer";
 import { Author } from "./Author";
 
@@ -10,7 +10,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 interface ArticleCardProps {
-  article: Article;
+  article: ArticleData;
   author: {
     username: string;
     image: string;
@@ -18,8 +18,8 @@ interface ArticleCardProps {
 }
 
 export function ArticleCard({ article, author}: ArticleCardProps) {
-  const {data, content} = article;
-  const [date, setDate] = useState(moment(data.date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+  const { data } = article;
+  const [ date ] = useState(moment(data.date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
 
   return (
     <div className="rounded-xl overflow-hidden mb-5">
