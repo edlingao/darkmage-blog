@@ -5,7 +5,7 @@ import Image from "next/image";
 interface AuthorProps {
   username: string;
   text: string;
-  image: string;  
+  image: string;
 }
 
 export function Author({image, username, text}: AuthorProps)  {

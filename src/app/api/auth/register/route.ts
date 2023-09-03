@@ -1,8 +1,8 @@
 import type { UserRegister } from '@/lib/types/User';
 import type { Error } from '@/lib/types/error';
+import UserModel from '@/models/User';
 
 import { encryptPassword } from '@/server/auth';
-import { prisma } from '@/server/db';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -19,14 +19,10 @@ export async function POST(req: Request) {
       return NextResponse.json(errorObj, { status: 400 });
     }
 
-    
-
-    const newUser = await prisma.user.create({
-      data: {
-        email,
-        name,
-        password: await encryptPassword(password)
-      },
+    const newUser = await UserModel.create({
+      email,
+      name,
+      password: await encryptPassword(password)
     });
 
     return NextResponse.json(newUser, { status: 200 });
